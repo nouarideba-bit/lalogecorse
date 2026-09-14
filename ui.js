@@ -195,3 +195,10 @@ function go(){
 go();
 new MutationObserver(go).observe(document.body,{childList:true,subtree:true});
 })();
+/* --- Cadre du logo adapte aux logos larges --- */
+(function(){
+var s=document.createElement("style");
+s.textContent='.p-card .logo-box{width:auto;min-width:52px;max-width:124px;height:52px;padding:5px 8px}'
++'.p-card .logo-box img{max-width:100%;max-height:100%}';
+document.head.appendChild(s);
+})();
