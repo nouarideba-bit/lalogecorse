@@ -202,3 +202,24 @@ s.textContent='.p-card .logo-box{width:auto;min-width:52px;max-width:124px;heigh
 +'.p-card .logo-box img{max-width:100%;max-height:100%}';
 document.head.appendChild(s);
 })();
+/* --- Liens manquants sur les cartes existantes --- */
+(function(){
+var U={"MEDEMERG":"https://mederreg.fr","MEDERREG":"https://mederreg.fr"};
+var ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>';
+document.querySelectorAll("#partnersGrid .p-card").forEach(function(c){
+  var h=c.querySelector("h4"); if(!h) return;
+  if(c.querySelector("a.p-link")) return;
+  var u=U[h.textContent.trim().toUpperCase()];
+  var old=c.querySelector(".p-link");
+  if(u){
+    var a=document.createElement("a");
+    a.className="p-link"; a.href=u; a.target="_blank"; a.rel="noopener";
+    a.innerHTML='Découvrir la marque '+ARROW;
+    if(old) old.replaceWith(a); else c.appendChild(a);
+  }else if(!old){
+    var s=document.createElement("span");
+    s.className="p-link disabled"; s.textContent="Site à confirmer";
+    c.appendChild(s);
+  }
+});
+})();
