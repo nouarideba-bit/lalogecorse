@@ -92,3 +92,62 @@ if(!reduce && "IntersectionObserver" in window){
   new MutationObserver(mark).observe(document.body,{childList:true,subtree:true});
 }
 })();
+/* --- Tous les partenaires en encadres (meme style que Kalliste Partners) --- */
+(function(){
+var GEN="Partenaire de La Loge Corse, présent aux rencontres du Paris FC au Stade Jean-Bouin.";
+/* [nom, site, contact, description, mono, confirme] */
+var P=[
+["ELYDAN","https://elydan.eu","",GEN,"EL",1],
+["City Sécurité","https://citysecurite.com","",GEN,"CS",1],
+["IE Pro","https://iepro.fr","",GEN,"IE",1],
+["Busca","https://busca.fr","",'Membre du groupe BME. '+GEN,"BU",1],
+["Groupe MC","https://www.mc-groupe.com","",GEN,"MC",1],
+["Zaloc","https://zaloc.fr","",GEN,"ZA",1],
+["Braxton Retail","https://braxton-im.com","",GEN,"BR",1],
+["Triangul Invest","http://www.triangul.fr","Seyhan Selçuk",GEN,"TI",0]
+];
+function e(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML;}
+
+/* 0. Style du monogramme (logo non fourni) */
+var st=document.createElement("style");
+st.textContent='.p-card .logo-box .mono{font-family:"Barlow Condensed";font-weight:800;font-size:18px;letter-spacing:.03em;color:var(--navy);line-height:1}'
++'.p-card .logo-box.mono-box{background:rgba(84,199,238,.14);border-color:rgba(84,199,238,.35)}';
+document.head.appendChild(st);
+
+/* 1. Titre : "Nos marques référencées." -> "Tous nos partenaires." */
+document.querySelectorAll("#partenaires h2").forEach(function(h){
+  if(/marques\s+référenc/i.test(h.textContent)){
+    h.innerHTML='Tous nos<br><span class="accent">partenaires.</span>';
+  }
+});
+
+/* 2. Suppression de l'annuaire en liste (remplacé par des encadrés) */
+document.querySelectorAll("#partenaires .section-head").forEach(function(sh){
+  var eb=sh.querySelector(".eyebrow");
+  if(eb&&/annuaire\s+complet/i.test(eb.textContent)) sh.remove();
+});
+document.querySelectorAll("ul.dir").forEach(function(u){u.remove();});
+
+/* 3. Un encadré pour chaque partenaire manquant */
+var grid=document.getElementById("partnersGrid");
+if(grid){
+  var have={};
+  grid.querySelectorAll(".p-card h4").forEach(function(h){have[h.textContent.trim().toLowerCase()]=1;});
+  var ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>';
+  P.forEach(function(p){
+    if(have[p[0].toLowerCase()])return;
+    var a=document.createElement("article");
+    a.className="p-card";
+    var h='<div class="p-top"><span class="logo-box mono-box"><span class="mono">'+e(p[4])+'</span></span>'
+      +'<span class="p-tag'+(p[5]?'':' tech')+'">'+(p[5]?"Partenaire référencé":"En cours de référencement")+'</span></div>'
+      +'<h4>'+e(p[0])+'</h4>'
+      +'<p class="desc">'+e(p[3])+'</p>';
+    if(p[2]) h+='<div class="p-contact">'+e(p[2])+'</div>';
+    h+= p[1]
+      ? '<a class="p-link" href="'+e(p[1])+'" target="_blank" rel="noopener">Découvrir la marque '+ARROW+'</a>'
+      : '<span class="p-link disabled">Site à confirmer</span>';
+    a.innerHTML=h;
+    grid.appendChild(a);
+  });
+}
+})();
