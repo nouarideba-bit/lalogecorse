@@ -223,3 +223,18 @@ document.querySelectorAll("#partnersGrid .p-card").forEach(function(c){
   }
 });
 })();
+/* --- Corrections d'URL et libelles --- */
+(function(){
+var FIX={"ZALOC":"https://www.zaloc.fr"};
+var NOSITE={"CME":1,"C.M.E":1};
+document.querySelectorAll("#partnersGrid .p-card").forEach(function(c){
+  var h=c.querySelector("h4"); if(!h) return;
+  var k=h.textContent.trim().toUpperCase();
+  var u=FIX[k];
+  if(u){ var a=c.querySelector("a.p-link"); if(a) a.href=u; }
+  if(NOSITE[k]){
+    var s=c.querySelector(".p-link");
+    if(s && s.tagName!=="A") s.textContent="Site internet à venir";
+  }
+});
+})();
