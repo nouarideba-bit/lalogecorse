@@ -40,6 +40,13 @@ if(fb){var cr=document.createElement("p");cr.className="credit-photo";
 cr.innerHTML='Photo du Stade Jean-Bouin : Liondartois, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>, via Wikimedia Commons.';
 fb.appendChild(cr);}
 
+/* Postes en français */
+var POSFR={"Goalkeeper":"Gardien","Goalkeeping Coach":"Entraîneur des gardiens","Defender":"Défenseur","Centre-Back":"Défenseur central","Center-Back":"Défenseur central","Right-Back":"Arrière droit","Left-Back":"Arrière gauche","Sweeper":"Libéro","Midfielder":"Milieu","Defensive Midfield":"Milieu défensif","Central Midfield":"Milieu central","Attacking Midfield":"Milieu offensif","Left Midfield":"Milieu gauche","Right Midfield":"Milieu droit","Left Wing":"Ailier gauche","Right Wing":"Ailier droit","Left Winger":"Ailier gauche","Right Winger":"Ailier droit","Forward":"Attaquant","Attacker":"Attaquant","Centre-Forward":"Avant-centre","Center-Forward":"Avant-centre","Striker":"Buteur","Second Striker":"Second attaquant","Coach":"Entraîneur","Assistant Coach":"Entraîneur adjoint","Manager":"Manager"};
+function POS(v){v=(v||"").trim();return POSFR[v]||v;}
+function trPos(){document.querySelectorAll(".pl-pos").forEach(function(el){var t=el.textContent.trim();if(POSFR[t])el.textContent=POSFR[t];});}
+if(document.body)new MutationObserver(trPos).observe(document.body,{childList:true,subtree:true});
+trPos();
+
 /* 2. Fiche joueur au clic */
 var PL={};
 function detail(id){
@@ -52,7 +59,7 @@ var card=document.createElement("div");card.className="pl-card";
 var bio=(p.strDescriptionFR||p.strDescriptionEN||"").slice(0,900);
 var born=p.dateBorn?new Date(p.dateBorn):null;
 var age=born?Math.floor((Date.now()-born.getTime())/31557600000):null;
-var fields=[["Poste",p.strPosition],["Numéro",p.strNumber],["Nationalité",p.strNationality],
+var fields=[["Poste",POS(p.strPosition)],["Numéro",p.strNumber],["Nationalité",p.strNationality],
 ["Né le",born?born.toLocaleDateString("fr-FR")+(age?" ("+age+" ans)":""):null],
 ["Lieu de naissance",p.strBirthLocation],["Taille",p.strHeight],["Poids",p.strWeight],["Statut",p.strStatus]];
 var h='<div class="pl-hd">'+(p.strCutout||p.strThumb?'<img src="'+e(p.strCutout||p.strThumb)+'" alt="">':'')
