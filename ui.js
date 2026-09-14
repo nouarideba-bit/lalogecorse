@@ -238,3 +238,30 @@ document.querySelectorAll("#partnersGrid .p-card").forEach(function(c){
   }
 });
 })();
+/* --- Acces a l'espace partenaire --- */
+(function(){
+var URL="/espace.php";
+var nav=document.querySelector("nav.primary");
+if(nav && !nav.querySelector('a[href="'+URL+'"]')){
+  var a=document.createElement("a");
+  a.className="navlink"; a.href=URL; a.textContent="Espace partenaire";
+  nav.appendChild(a);
+}
+var ha=document.querySelector(".header-actions");
+if(ha && !ha.querySelector('a[href="'+URL+'"]')){
+  var b=document.createElement("a");
+  b.className="btn btn-ghost-light btn-sm"; b.href=URL; b.textContent="Espace partenaire";
+  ha.insertBefore(b, ha.firstChild);
+}
+var sec=document.getElementById("reserver");
+if(sec && !sec.querySelector(".lc-espace")){
+  var head=sec.querySelector(".section-head");
+  if(head){
+    var p=document.createElement("p");
+    p.className="lc-espace";
+    p.style.cssText="margin-top:14px;font-size:13.5px";
+    p.innerHTML='Vous êtes partenaire ? <a href="'+URL+'" style="font-weight:600;border-bottom:1px solid var(--sky)">Connectez-vous à votre espace</a> pour enregistrer vos invités et suivre vos demandes.';
+    head.appendChild(p);
+  }
+}
+})();
