@@ -265,3 +265,114 @@ if(sec && !sec.querySelector(".lc-espace")){
   }
 }
 })();
+/* --- Ecussons cliquables : lien vers le site officiel de chaque club --- */
+(function(){
+var API="https://www.thesportsdb.com/api/v1/json/3/";
+var st=document.createElement("style");
+st.textContent='.crest-link{display:inline-flex;line-height:0;border-radius:6px;transition:transform .18s cubic-bezier(.22,.9,.3,1)}'
++'.crest-link:hover{transform:scale(1.15)}'
++'.crest-link:focus-visible{outline:2px solid var(--sky);outline-offset:3px}';
+document.head.appendChild(st);
+
+var W={};
+function site(id){
+  if(W[id]!==undefined) return Promise.resolve(W[id]);
+  try{
+    var h=JSON.parse(localStorage.getItem("lcw"+id)||"null");
+    if(h && Date.now()-h.t<2592e6){ W[id]=h; return Promise.resolve(h); }
+  }catch(x){}
+  return fetch(API+"lookupteam.php?id="+id).then(function(r){return r.json();}).then(function(j){
+    var t=(j.teams||[])[0]||{};
+    var u=(t.strWebsite||"").trim();
+    if(u && !/^https?:\/\//i.test(u)) u="https://"+u;
+    var o={u:u,n:t.strTeam||"",t:Date.now()};
+    W[id]=o;
+    try{localStorage.setItem("lcw"+id,JSON.stringify(o));}catch(x){}
+    return o;
+  }).catch(function(){ var o={u:"",n:"",t:Date.now()}; W[id]=o; return o; });
+}
+
+function wrapCrests(){
+  document.querySelectorAll("img.crest[data-crest]").forEach(function(im){
+    if(im.__lk) return;
+    im.__lk=true;
+    var p=im.parentNode;
+    if(p && p.tagName==="A") return;
+    site(im.getAttribute("data-crest")).then(function(o){
+      if(!o.u || !im.parentNode) return;
+      if(im.parentNode.tagName==="A") return;
+      var a=document.createElement("a");
+      a.className="crest-link";
+      a.href=o.u; a.target="_blank"; a.rel="noopener";
+      var lb="Site officiel"+(o.n?" du "+o.n:"");
+      a.title=lb; a.setAttribute("aria-label",lb);
+      im.parentNode.insertBefore(a,im);
+      a.appendChild(im);
+    });
+  });
+}
+wrapCrests();
+new MutationObserver(wrapCrests).observe(document.body,{childList:true,subtree:true});
+})();
+
+/* --- Video de bienvenue en haut de la page d'accueil --- */
+(function(){
+var MP4="loge-bienvenue.mp4", POSTER="loge-bienvenue.jpg";
+
+function build(){
+  if(document.getElementById("bienvenue")) return;
+  var hero=document.querySelector(".hero");
+  if(!hero) return;
+
+  var st=document.createElement("style");
+  st.textContent='#bienvenue{scroll-margin-top:96px}'
+  +'.lc-vid{position:relative;border-radius:20px;overflow:hidden;background:#0B1220;'
+  +'box-shadow:0 26px 60px -34px rgba(7,31,75,.75);line-height:0}'
+  +'.lc-vid video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;max-width:100%;cursor:pointer}'
+  +'.lc-son{position:absolute;right:14px;bottom:14px;z-index:2;border:0;cursor:pointer;'
+  +'font:inherit;font-size:12px;font-weight:700;line-height:1;padding:10px 16px;border-radius:999px;'
+  +'background:rgba(255,255,255,.92);color:var(--navy);backdrop-filter:blur(6px);'
+  +'transition:transform .18s cubic-bezier(.22,.9,.3,1),background-color .18s}'
+  +'.lc-son:hover{transform:translateY(-2px);background:#fff}'
+  +'.lc-son:focus-visible{outline:2px solid var(--sky);outline-offset:3px}'
+  +'@media (max-width:520px){.lc-son{right:10px;bottom:10px;padding:9px 13px;font-size:11px}}';
+  document.head.appendChild(st);
+
+  var sec=document.createElement("section");
+  sec.className="section-cream";
+  sec.id="bienvenue";
+  sec.innerHTML='<div class="wrap section-pad" style="padding-bottom:0">'
+  +'<div class="lc-vid">'
+  +'<video id="lcV" poster="'+POSTER+'" muted loop playsinline preload="metadata" '
+  +'aria-label="Vidéo de bienvenue de La Loge Corse">'
+  +'<source src="'+MP4+'" type="video/mp4">'
+  +'</video>'
+  +'<button type="button" class="lc-son" id="lcS">Activer le son</button>'
+  +'</div></div>';
+  hero.insertAdjacentElement("afterend", sec);
+
+  var v=document.getElementById("lcV"), b=document.getElementById("lcS");
+  var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!reduce){
+    v.autoplay=true;
+    var go=v.play();
+    if(go && go.catch) go.catch(function(){});
+  }
+  b.addEventListener("click",function(){
+    if(v.muted){
+      v.muted=false; v.volume=0.9;
+      if(v.paused) v.play();
+      b.textContent="Couper le son";
+    }else{
+      v.muted=true;
+      b.textContent="Activer le son";
+    }
+  });
+  v.addEventListener("click",function(){
+    if(v.paused) v.play(); else v.pause();
+  });
+}
+
+/* La section n'apparait que si le fichier video est bien en ligne. */
+fetch(MP4,{method:"HEAD"}).then(function(r){ if(r.ok) build(); }).catch(function(){});
+})();
