@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /invitation.php
+
+Sitemap: https://lalogecorse.fr/sitemap.xml
