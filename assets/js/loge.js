@@ -126,9 +126,34 @@
         var play = el('span', 'play'); play.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="#071F4B"/></svg>'; top.appendChild(play);
         var d = new Date(v.date + 'T12:00:00');
         a.appendChild(top); a.appendChild(el('span', 't', v.titre));
-        a.appendChild(el('span', 'meta', v.source + ' · ' + d.getDate() + ' ' + MOIS[d.getMonth()] + ' ' + d.getFullYear() + ' · YouTube ↗'));
+        a.appendChild(el('span', 'meta', v.source + ' · ' + d.getDate() + ' ' + MOIS[d.getMonth()] + ' ' + d.getFullYear() + ' · Lire la vidéo'));
+        a.addEventListener('click', function (e) { if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return; e.preventDefault(); openPlayer(v, a); });
         grid.appendChild(a);
       });
+    }
+    /* Lecteur intégré : YouTube (mode sans cookies) ne se charge qu'au clic sur une vidéo. */
+    var modal = null, opener = null;
+    function closePlayer() {
+      if (!modal) return;
+      document.body.removeChild(modal); modal = null; document.removeEventListener('keydown', onKey);
+      if (opener) opener.focus();
+    }
+    function onKey(e) { if (e.key === 'Escape') closePlayer(); }
+    function openPlayer(v, from) {
+      closePlayer(); opener = from;
+      modal = el('div', 'vmodal'); modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true'); modal.setAttribute('aria-label', v.titre);
+      var box = el('div', 'vbox');
+      var bar = el('div', 'vbar'); bar.appendChild(el('span', null, v.titre));
+      var x = el('button', 'vclose', 'Fermer ✕'); x.type = 'button'; x.addEventListener('click', closePlayer); bar.appendChild(x);
+      var frame = el('div', 'vframe'), ifr = el('iframe');
+      ifr.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) + '?autoplay=1&rel=0';
+      ifr.title = v.titre; ifr.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; ifr.allowFullscreen = true; ifr.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.appendChild(ifr);
+      var foot = el('p', 'vfoot'); foot.appendChild(document.createTextNode('Vidéo hébergée par YouTube (mode sans cookies de suivi) · '));
+      var yt = el('a', null, 'Ouvrir sur YouTube ↗'); yt.href = v.url; yt.target = '_blank'; yt.rel = 'noopener'; foot.appendChild(yt);
+      box.appendChild(bar); box.appendChild(frame); box.appendChild(foot); modal.appendChild(box);
+      modal.addEventListener('click', function (e) { if (e.target === modal) closePlayer(); });
+      document.body.appendChild(modal); document.addEventListener('keydown', onKey); x.focus();
     }
     all('#vtabs button').forEach(function (b) {
       b.addEventListener('click', function () { f = b.getAttribute('data-f'); pressed(all('#vtabs button'), function (x) { return x === b; }); render(); });
