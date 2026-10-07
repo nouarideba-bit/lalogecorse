@@ -31,3 +31,8 @@ DirectoryIndex index.html
 </IfModule>
 
 AddType image/webp .webp
+
+# Scripts de maintenance non publics
+<FilesMatch "\.(py|mjs)$">
+  Require all denied
+</FilesMatch>
