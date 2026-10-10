@@ -11,5 +11,6 @@
  {"slug":"cme","nom":"C.M.E","metier":"Climatisation, maintenance, électricité","logo":"cme.webp","role":"Partenaire technique","desc":"Climatisation, maintenance et électricité.","personne":"","fonction":"","url":""},
  {"slug":"zaloc","nom":"Zaloc","metier":"Location de matériel événementiel","logo":"zaloc.webp","role":"Partenaire","desc":"Location de matériel événementiel : mobilier, structures, son et lumière.","personne":"","fonction":"","url":"https://www.zaloc.fr"},
  {"slug":"braxton","nom":"Braxton","metier":"Gestion immobilière","logo":"braxton.webp","role":"Partenaire","desc":"Société de gestion immobilière agréée par l’AMF, basée à Paris.","personne":"","fonction":"","url":"https://braxton-im.com"},
- {"slug":"marline","nom":"Marline","metier":"Carburant alkylate","logo":"marline.webp","role":"Partenaire · Aspen","desc":"Producteur français de carburant alkylate pour petits moteurs, filiale d’Aspen.","personne":"Jean-François Bonin","fonction":"Président","url":"https://www.marline.fr"}
+ {"slug":"marline","nom":"Marline","metier":"Carburant alkylate","logo":"marline.webp","role":"Partenaire · Aspen","desc":"Producteur français de carburant alkylate pour petits moteurs, filiale d’Aspen.","personne":"Jean-François Bonin","fonction":"Président","url":"https://www.marline.fr"},
+ {"slug":"ebps","nom":"EBPS","metier":"","logo":"ebps.webp","role":"Partenaire","desc":"Partenaire de La Loge Corse.","personne":"","fonction":"","url":"http://www.ebps.fr/"}
 ]
