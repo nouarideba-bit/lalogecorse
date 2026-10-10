@@ -33,7 +33,7 @@ HEAD = """<!doctype html>
   <nav class="nav"><a class="btn btn-pink" href="../index.html#calendrier">Inscrire mes invités</a></nav>
 </header>
 <main class="wrap pmain">
-  <nav class="crumbs" aria-label="Fil d’Ariane"><a href="../index.html#table">La table des 13</a> › <span>{nom}</span></nav>
+  <nav class="crumbs" aria-label="Fil d’Ariane"><a href="../index.html#table">La table des 14</a> › <span>{nom}</span></nav>
   <section class="phero">
     <div class="col">
       <span class="eyebrow">{role} · Siège {num} sur {total}</span>

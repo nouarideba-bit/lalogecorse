@@ -87,7 +87,7 @@
     renderList();
   }).catch(function () { var l = $('#mlist'); if (l) l.textContent = 'Le calendrier est momentanément indisponible.'; });
 
-  /* ---------- La table des 13 ---------- */
+  /* ---------- La table des 14 ---------- */
   get('data/partenaires.json').then(function (P) {
     var round = $('#round'), cur = 0, seats = [];
     P.forEach(function (p, i) {
