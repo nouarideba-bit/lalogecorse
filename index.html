@@ -12,8 +12,11 @@
 <meta property="og:description" content="Une loge privée, un esprit corse et quatorze entreprises partenaires.">
 <meta property="og:image" content="https://lalogecorse.fr/assets/img/paris-fc-jean-bouin.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="assets/img/hero.webp" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/css/loge.css?v=20261007b">
+<link rel="stylesheet" href="assets/css/loge.css?v=20261024">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"La Loge Corse","url":"https://lalogecorse.fr/","logo":"https://lalogecorse.fr/assets/img/la-loge-corse.webp"}</script>
 </head>
 <body>
 
@@ -40,7 +43,7 @@
 
 <main id="top">
 <section class="hero">
-  <img class="hero-img" src="assets/img/hero.webp" alt="Illustration : supporter corse devant une côte méditerranéenne">
+  <img class="hero-img" src="assets/img/hero.webp" width="1100" height="619" fetchpriority="high" alt="Illustration : supporter corse devant une côte méditerranéenne">
   <div class="wrap">
     <div class="hero-copy">
       <span class="eyebrow">Benvenuti à Jean-Bouin</span>
@@ -79,7 +82,7 @@
       </div>
       <div class="panel" aria-live="polite">
         <span class="eyebrow dark" id="p-role"></span>
-        <div class="logo"><img id="p-logo" src="" alt=""></div>
+        <div class="logo"><img id="p-logo" src="" alt="" width="320" height="128"></div>
         <h3 id="p-name"></h3>
         <p id="p-desc"></p>
         <p class="who" id="p-who" hidden></p>
@@ -100,14 +103,14 @@
       <h2>Un bout de Corse<br>au cœur de Paris.</h2>
       <p class="lead">La Loge Corse est née d’une idée simple : réunir, autour du sport, des chefs d’entreprise attachés à la Corse et à ses valeurs d’accueil. Chaque match à domicile devient une table ouverte où l’on reçoit clients, équipes et amis.</p>
       <figure>
-        <img src="assets/img/jerome-brigato.webp" alt="Jérôme Brigato">
+        <img src="assets/img/jerome-brigato.webp" loading="lazy" alt="Jérôme Brigato">
         <figcaption>
           <blockquote>« Convivialité, sport, Corse : la table est prête. »</blockquote>
           <cite>Jérôme Brigato · fondateur de La Loge Corse, Kalliste Partners</cite>
         </figcaption>
       </figure>
     </div>
-    <img class="photo" src="assets/img/paris-fc-jean-bouin.webp" alt="Les joueurs du Paris FC entrent sur la pelouse de Jean-Bouin devant les supporters">
+    <img class="photo" src="assets/img/paris-fc-jean-bouin.webp" width="1200" height="670" loading="lazy" alt="Les joueurs du Paris FC entrent sur la pelouse de Jean-Bouin devant les supporters">
   </div>
 </section>
 
@@ -229,7 +232,7 @@
 </main>
 
 <footer class="infos" id="infos">
-  <img class="band" src="assets/img/stade-jean-bouin.webp" alt="Le Stade Jean-Bouin vu de nuit">
+  <img class="band" src="assets/img/stade-jean-bouin.webp" width="1600" height="352" loading="lazy" alt="Le Stade Jean-Bouin vu de nuit">
   <div class="wrap">
     <div class="cols">
       <div><span class="k">Adresse</span><p>Stade Jean-Bouin<br>20-40 avenue du Général Sarrail<br>75016 Paris</p></div>
@@ -241,6 +244,8 @@
   </div>
 </footer>
 
-<script src="assets/js/loge.js?v=20261007b"></script>
+<script src="assets/js/loge.js?v=20261007b" defer></script>
+<script src="assets/js/motion.min.js?v=11.18.2" defer></script>
+<script src="assets/js/motion.js?v=20261024" defer></script>
 </body>
 </html>
